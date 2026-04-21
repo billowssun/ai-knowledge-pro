@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* 如果你还需要之前的隐藏滚动条样式，可以写在下面 */
+@theme {
+  /* v4 的自定义主题配置可以写在这里 */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
