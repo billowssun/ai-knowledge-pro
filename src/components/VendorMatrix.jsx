@@ -1,88 +1,89 @@
-import React from 'react';
-import { Building2, ChevronUp, Star, Layers } from 'lucide-react';
+import React, { useState } from 'react';
+import { Building2, Star, Box } from 'lucide-react';
 import * as Icons from 'lucide-react';
-
-function VendorDetailPanel({ activeVendor, onClose }) {
-  if (!activeVendor) return null;
-  
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 md:p-10 animate-in fade-in duration-300" onClick={onClose}>
-      <div className="bg-slate-50 w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} aria-label="关闭详情面板" className="absolute top-6 right-6 p-2 bg-white rounded-full text-slate-400 hover:text-slate-900 shadow-sm border border-slate-100 hover:bg-slate-100 transition-colors z-20">
-           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div className="p-8 md:p-12">
-          <div className="flex items-center gap-4 mb-8 border-b border-slate-200 pb-6">
-            <h2 className="text-3xl font-black text-slate-900">{activeVendor.name}</h2>
-            <span className="text-xs font-black bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full uppercase">{activeVendor.origin}</span>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {activeVendor?.models?.map((m) => (
-              <div key={m.name} className="bg-white border-2 border-indigo-50 rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:border-indigo-200 transition-all flex flex-col group relative overflow-hidden">
-                 <div className="flex justify-between items-start mb-8 relative z-10">
-                    <div>
-                      <div className="text-xl font-black text-slate-900 group-hover:text-indigo-600 transition-colors">{m.name}</div>
-                      <div className="text-xs font-black text-slate-400 uppercase mt-1.5 flex items-center gap-1.5 tracking-widest"><Layers className="w-4 h-4"/>{m.type}</div>
-                    </div>
-                    <div className={`text-xs px-3 py-1.5 rounded-xl font-black border shadow-sm ${m.status === '开源' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-rose-50 text-rose-700 border-rose-100'}`}>{m.status}</div>
-                 </div>
-                 <div className="grid grid-cols-3 gap-3 mb-8">
-                    {m.specs && Object.entries(m.specs).map(([k, v]) => (
-                      <div key={k} className="bg-slate-50 p-3 rounded-2xl border border-slate-100 text-center shadow-inner">
-                        <div className="text-[10px] font-black text-slate-400 uppercase mb-1 tracking-tighter">{k}</div>
-                        <div className="text-xs font-black text-slate-700">{v}</div>
-                      </div>
-                    ))}
-                 </div>
-                 <div className="flex flex-wrap gap-2 mb-8">
-                    {m.features?.map((f) => (
-                      <span key={f} className="bg-indigo-50 text-indigo-600 text-xs px-3 py-1 rounded-full font-bold border border-indigo-100 shadow-sm"># {f}</span>
-                    ))}
-                 </div>
-                 <p className="mt-auto text-sm text-slate-500 italic leading-relaxed pt-6 border-t border-slate-100 font-medium">{m.suitability}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import VendorDetailPanel from './VendorDetailPanel';
 
 export default function VendorMatrix({ activeDomain, activeVendor, setActiveVendor }) {
+  const [filter, setFilter] = useState('all');
+
+  const filteredVendors = activeDomain?.vendors?.filter(v => {
+    if (filter === 'all') return true;
+    if (filter === 'open') return v.models?.some(m => m.status === '开源');
+    if (filter === 'closed') return v.models?.some(m => m.status !== '开源');
+    return true;
+  });
+
   return (
-    <section className="space-y-8">
-      <div className="flex items-center justify-between px-4">
+    <section className="space-y-6 sm:space-y-8">
+      {/* Header with filter tabs */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div className="flex items-center gap-3">
-          <Building2 className="w-5 h-5 text-slate-400" />
-          <h3 className="text-sm font-black text-slate-500 uppercase tracking-widest">AI 厂商图谱与生态库</h3>
+          <Building2 className="w-5 h-5 text-slate-400 shrink-0" />
+          <h3 className="text-xs sm:text-sm font-black text-slate-500 uppercase tracking-widest">AI 厂商图谱与生态库</h3>
+        </div>
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl shadow-inner">
+          {[
+            { key: 'all', label: '全部', activeColor: 'text-indigo-600' },
+            { key: 'open', label: '开源生态', activeColor: 'text-emerald-600' },
+            { key: 'closed', label: '闭源商业', activeColor: 'text-rose-600' }
+          ].map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => { setFilter(tab.key); setActiveVendor(null); }}
+              className={`whitespace-nowrap px-3 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-black transition-all ${filter === tab.key ? `bg-white ${tab.activeColor} shadow-sm` : 'text-slate-500 hover:text-slate-900'}`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" role="tablist">
-        {activeDomain?.vendors?.map(v => {
-          const LogoIcon = Icons[v.logo === 'VideoIcon' ? 'Video' : v.logo] || Icons.Box;
-          return (
-          <button 
-            key={v.id} 
-            role="tab"
-            aria-selected={activeVendor?.id === v.id}
-            onClick={() => setActiveVendor(v)} 
-            className={`flex flex-col items-center justify-center p-5 rounded-[1.5rem] border transition-all duration-300 text-center group relative overflow-hidden h-full ${activeVendor?.id === v.id ? 'bg-white border-indigo-500 shadow-xl shadow-indigo-100/50 scale-105 z-10 ring-4 ring-indigo-50' : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}
-          >
-            <div className={`mb-3 transition-transform group-hover:scale-110 grayscale-[0.5] group-hover:grayscale-0 ${v.logoColor || 'text-slate-800'}`}>
-               <LogoIcon className="w-6 h-6" />
-            </div>
-            <div className="text-sm font-black text-slate-900 leading-tight mb-1">{v.name}</div>
-            <span className="text-[10px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md uppercase">{v.origin}</span>
-            {activeVendor?.id === v.id && <div className="absolute top-2 right-2"><Star className="w-3 h-3 text-indigo-500 fill-indigo-500" /></div>}
-          </button>
-        )})}
-        <div className="flex flex-col items-center justify-center p-5 rounded-[1.5rem] border border-dashed border-slate-200 opacity-40 grayscale h-full">
-            <div className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">More...</div>
-            <div className="text-xs font-black text-slate-300 italic">更多厂商录入中</div>
+      
+      {/* Vendor Grid or Detail Panel */}
+      {activeVendor ? (
+        <VendorDetailPanel activeVendor={activeVendor} onClose={() => setActiveVendor(null)} />
+      ) : filteredVendors?.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3" role="tablist">
+          {filteredVendors?.map(v => {
+            const LogoIcon = Icons[v.logo === 'VideoIcon' ? 'Video' : v.logo] || Box;
+            const modelCount = v.models?.length || 0;
+            return (
+            <button 
+              key={v.id} 
+              role="tab"
+              aria-selected={activeVendor?.id === v.id}
+              onClick={() => setActiveVendor(v)} 
+              className={`flex flex-col items-center justify-center p-3 sm:p-5 rounded-xl sm:rounded-[1.5rem] border transition-all duration-300 text-center group relative overflow-hidden
+                ${activeVendor?.id === v.id 
+                  ? 'bg-white border-indigo-500 shadow-xl shadow-indigo-100/50 scale-[1.03] z-10 ring-2 sm:ring-4 ring-indigo-50' 
+                  : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}
+            >
+              <div className={`mb-2 sm:mb-3 transition-transform group-hover:scale-110 ${v.logoColor || 'text-slate-800'}`}>
+                 <LogoIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+              <div className="text-xs sm:text-sm font-black text-slate-900 leading-tight mb-1 line-clamp-1">{v.name}</div>
+              <span className="text-[9px] sm:text-[10px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md uppercase">{v.origin}</span>
+              {/* Model count badge */}
+              {modelCount > 0 && (
+                <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 text-[8px] sm:text-[9px] font-black bg-indigo-50 text-indigo-500 px-1 sm:px-1.5 py-0.5 rounded-md border border-indigo-100">
+                  {modelCount} 模型
+                </span>
+              )}
+              {activeVendor?.id === v.id && <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2"><Star className="w-3 h-3 text-indigo-500 fill-indigo-500" /></div>}
+            </button>
+          )})}
+          {/* Placeholder card */}
+          <div className="flex flex-col items-center justify-center p-3 sm:p-5 rounded-xl sm:rounded-[1.5rem] border border-dashed border-slate-200 opacity-40">
+              <div className="text-[9px] sm:text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">More...</div>
+              <div className="text-[10px] sm:text-xs font-black text-slate-300 italic">更多厂商录入中</div>
+          </div>
         </div>
-      </div>
-      <VendorDetailPanel activeVendor={activeVendor} onClose={() => setActiveVendor(null)} />
+      ) : (
+        <div className="flex flex-col items-center justify-center py-16 sm:py-20 px-4 bg-white rounded-2xl sm:rounded-[2.5rem] border border-dashed border-slate-200 text-center shadow-sm">
+          <Icons.Ghost className="w-10 h-10 sm:w-12 sm:h-12 text-slate-200 mb-4 sm:mb-5 animate-pulse" />
+          <h4 className="text-sm sm:text-base font-black text-slate-500 mb-2">该阵营下暂无收录模型</h4>
+          <p className="text-[11px] sm:text-xs font-bold text-slate-400">期待 AI 领域的下一次颠覆式突破 🚀</p>
+        </div>
+      )}
     </section>
   );
 }

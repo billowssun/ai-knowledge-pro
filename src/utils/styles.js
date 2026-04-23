@@ -22,5 +22,17 @@ export const colorClasses = {
     textMain: 'text-rose-600',
     bgMain: 'bg-rose-500',
     bgBlur: 'bg-rose-400/5'
+  },
+  emerald: {
+    bgLight: 'bg-emerald-50',
+    textMain: 'text-emerald-600',
+    bgMain: 'bg-emerald-500',
+    bgBlur: 'bg-emerald-400/5'
+  },
+  amber: {
+    bgLight: 'bg-amber-50',
+    textMain: 'text-amber-600',
+    bgMain: 'bg-amber-500',
+    bgBlur: 'bg-amber-400/5'
   }
 };
