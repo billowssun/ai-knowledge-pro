@@ -58,7 +58,7 @@ export default function VendorMatrix({ activeDomain, activeVendor, setActiveVend
           <h3 className="text-sm font-black text-slate-500 uppercase tracking-widest">AI 厂商图谱与生态库</h3>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3" role="tablist">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" role="tablist">
         {activeDomain?.vendors?.map(v => {
           const LogoIcon = Icons[v.logo === 'VideoIcon' ? 'Video' : v.logo] || Icons.Box;
           return (

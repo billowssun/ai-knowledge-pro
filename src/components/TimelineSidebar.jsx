@@ -3,8 +3,8 @@ import { Milestone } from 'lucide-react';
 
 export default function TimelineSidebar({ activeDomain }) {
   return (
-    <aside className="lg:col-span-4">
-      <div className="bg-white rounded-[3rem] border border-slate-200 p-10 shadow-sm sticky top-28 flex flex-col h-[calc(100vh-140px)]">
+    <aside className="h-full">
+      <div className="bg-white rounded-[3rem] border border-slate-200 p-10 shadow-sm sticky top-28 flex flex-col h-[calc(100vh-140px)] relative">
         <div className="flex items-center gap-3 mb-10">
           <div className="bg-indigo-50 p-2.5 rounded-2xl text-indigo-600 border border-indigo-100 shadow-sm"><Milestone className="w-5 h-5" /></div>
           <div>
@@ -22,6 +22,7 @@ export default function TimelineSidebar({ activeDomain }) {
             </div>
           ))}
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-[3rem]"></div>
       </div>
     </aside>
   );

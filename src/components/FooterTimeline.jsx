@@ -23,7 +23,7 @@ export default function FooterTimeline({ generalTimeline }) {
         </div>
         <div className="relative">
           <div className="absolute top-1/2 left-0 w-full h-[3px] bg-slate-100 -translate-y-1/2 z-0"></div>
-          <div className="flex gap-8 overflow-x-auto pb-10 pt-4 scrollbar-hide snap-x relative z-10 px-4">
+          <div className="flex gap-8 overflow-x-auto pb-10 pt-4 snap-x relative z-10 px-4">
             {generalTimeline?.map((item) => (
               <div key={item.title} className="flex-shrink-0 w-[300px] snap-center group">
                 <div className="flex flex-col items-center">

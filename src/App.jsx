@@ -27,7 +27,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-6 py-10 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          <div className="lg:col-span-8 space-y-10">
+          <div className="order-2 lg:order-1 lg:col-span-8 space-y-10">
             <DomainContent activeDomain={activeDomain} />
             <TechDeepDive activeDomain={activeDomain} />
             <VendorMatrix 
@@ -37,7 +37,9 @@ export default function App() {
             />
           </div>
 
-          <TimelineSidebar activeDomain={activeDomain} />
+          <div className="order-1 lg:order-2 lg:col-span-4">
+            <TimelineSidebar activeDomain={activeDomain} />
+          </div>
           
         </div>
       </main>
