@@ -23,7 +23,7 @@ function ScenarioCard({ scenario }: ScenarioCardProps) {
           })}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-[9px] sm:text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-0.5">
+          <div className="text-[11px] sm:text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-0.5">
             {scenario.audience}
           </div>
           <h4 className="text-sm sm:text-base font-black text-white leading-tight truncate">
@@ -37,7 +37,7 @@ function ScenarioCard({ scenario }: ScenarioCardProps) {
       </p>
 
       <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-700/50">
-        <span className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mr-1 self-center">
+        <span className="text-[11px] sm:text-[10px] font-black text-slate-500 uppercase tracking-widest mr-1 self-center">
           常用工具
         </span>
         {scenario.tools.map((tool) => (

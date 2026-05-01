@@ -19,14 +19,14 @@ export function renderNarrative(text: string | undefined | null): React.ReactNod
     return (
       <p
         key={pi}
-        className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium text-justify mb-4 last:mb-0"
+        className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm sm:text-base font-medium text-justify mb-4 last:mb-0"
       >
         {parts.map((part, i) => {
           if (/^【[^】]+】$/.test(part)) {
             return (
               <span
                 key={i}
-                className="inline-block font-black text-slate-900 mr-1.5 mb-1"
+                className="inline-block font-black text-slate-900 dark:text-slate-200 mr-1.5 mb-1"
               >
                 {part}
               </span>
