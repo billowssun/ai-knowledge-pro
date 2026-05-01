@@ -13,21 +13,21 @@ const FooterTimeline = lazy(() => import('./components/FooterTimeline'));
 const SearchModal = lazy(() => import('./components/SearchModal'));
 
 const LoadingFallback = () => (
-  <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-10 border border-slate-200 shadow-sm">
+  <div className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-[2.5rem] p-10 border border-slate-200 dark:border-slate-700 shadow-sm">
     <div className="animate-pulse space-y-4">
-      <div className="h-4 bg-slate-100 rounded w-3/4" />
-      <div className="h-4 bg-slate-100 rounded w-1/2" />
-      <div className="h-4 bg-slate-100 rounded w-5/6" />
+      <div className="h-4 bg-slate-100 dark:bg-slate-700 rounded w-3/4" />
+      <div className="h-4 bg-slate-100 dark:bg-slate-700 rounded w-1/2" />
+      <div className="h-4 bg-slate-100 dark:bg-slate-700 rounded w-5/6" />
     </div>
   </div>
 );
 
 function EmptyApp() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] p-8">
-      <div className="bg-white rounded-3xl border border-slate-200 p-10 max-w-md w-full text-center shadow-lg">
-        <h2 className="text-xl font-black text-slate-900 mb-2">数据加载异常</h2>
-        <p className="text-sm text-slate-500">无法加载领域数据，请刷新页面重试。</p>
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-slate-950 p-8">
+      <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 p-10 max-w-md w-full text-center shadow-lg">
+        <h2 className="text-xl font-black text-slate-900 dark:text-white mb-2">数据加载异常</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400">无法加载领域数据，请刷新页面重试。</p>
       </div>
     </div>
   );

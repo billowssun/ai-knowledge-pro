@@ -32,7 +32,7 @@ export const Tooltip = memo(function Tooltip({ text, explanation }: TooltipProps
       onFocus={() => setShow(true)}
       onBlur={() => setShow(false)}
     >
-      <span className="border-b-2 border-dashed border-indigo-400/60 text-indigo-200 font-bold group-hover:text-indigo-300 transition-colors">
+      <span className="border-b-2 border-dashed border-indigo-400/60 text-indigo-200 font-bold group-hover:text-indigo-300 dark:group-hover:text-indigo-200 transition-colors">
         {text}
       </span>
       <TooltipContent show={show} explanation={explanation} />

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ==========================================
    Global Design System & Layout Fixes
    ========================================== */
@@ -34,9 +36,18 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #e2e8f0 transparent;
+}
+.dark .custom-scrollbar {
+  scrollbar-color: #334155 transparent;
 }
 
 /* ---- Smooth Scroll ---- */
@@ -50,6 +61,10 @@ html {
 ::selection {
   background: #e0e7ff;
   color: #312e81;
+}
+.dark ::selection {
+  background: #3730a3;
+  color: #e0e7ff;
 }
 
 /* ---- Line clamp utility ---- */

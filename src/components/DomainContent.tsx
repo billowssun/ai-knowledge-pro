@@ -28,7 +28,7 @@ const DomainContent = memo(function DomainContent({ activeDomain }: DomainConten
           </div>
           <div className="flex flex-wrap gap-2">
             {activeDomain?.techSpecs?.map((spec) => (
-              <span key={spec.label} className="text-[10px] sm:text-[11px] font-black bg-slate-50 text-slate-500 px-2 sm:px-2.5 py-1 rounded-lg border border-slate-100 uppercase whitespace-nowrap">{spec.value}</span>
+              <span key={spec.label} className="text-[10px] sm:text-[11px] font-black bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 sm:px-2.5 py-1 rounded-lg border border-slate-100 dark:border-slate-700 uppercase whitespace-nowrap">{spec.value}</span>
             ))}
           </div>
         </div>
@@ -41,7 +41,7 @@ const DomainContent = memo(function DomainContent({ activeDomain }: DomainConten
                 <div className={`text-[10px] sm:text-xs font-black ${styles.textMain} uppercase tracking-widest mb-1.5`}>
                   人话版
                 </div>
-                <p className="text-slate-700 leading-relaxed text-sm sm:text-base font-medium">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base font-medium">
                   {activeDomain.principles.simple}
                 </p>
               </div>
@@ -68,7 +68,7 @@ const DomainContent = memo(function DomainContent({ activeDomain }: DomainConten
           <div className="mb-8 sm:mb-10">{renderNarrative(activeDomain?.principles?.content)}</div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 border-t border-slate-100">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 border-t border-slate-100 dark:border-slate-700">
           {activeDomain?.stats?.map((stat) => {
             const displayValue = stat.display ? stat.display : stat.unit ? `${stat.value}${stat.unit}` : `${stat.value}%`;
             const barWidth = Math.min(stat.value, 100);
