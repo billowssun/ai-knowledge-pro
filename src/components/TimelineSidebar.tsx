@@ -1,20 +1,23 @@
-import React from 'react';
+import { memo } from 'react';
 import { Milestone } from 'lucide-react';
+import type { Domain } from '../types';
 
-export default function TimelineSidebar({ activeDomain }) {
+interface TimelineSidebarProps {
+  activeDomain: Domain;
+}
+
+const TimelineSidebar = memo(function TimelineSidebar({ activeDomain }: TimelineSidebarProps) {
   return (
-    <aside className="h-full">
+    <aside className="h-full" aria-label="领域演进时间线">
       <div className="bg-white rounded-2xl sm:rounded-[3rem] border border-slate-200 p-6 sm:p-8 lg:p-10 shadow-sm sticky top-20 sm:top-28 flex flex-col max-h-[60vh] lg:max-h-[calc(100vh-140px)] relative">
-        {/* Header */}
         <div className="flex items-center gap-3 mb-6 sm:mb-8 lg:mb-10 shrink-0">
-          <div className="bg-indigo-50 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl text-indigo-600 border border-indigo-100 shadow-sm shrink-0"><Milestone className="w-4 h-4 sm:w-5 sm:h-5" /></div>
+          <div className="bg-indigo-50 p-2 sm:p-2.5 rounded-xl sm:rounded-2xl text-indigo-600 border border-indigo-100 shadow-sm shrink-0"><Milestone className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" /></div>
           <div className="min-w-0">
             <h3 className="text-base sm:text-lg lg:text-xl font-black text-slate-900 tracking-tight truncate">{activeDomain?.name} 演进史</h3>
             <p className="text-[10px] sm:text-xs font-black text-slate-400 uppercase mt-0.5">Vertical Chronicle</p>
           </div>
         </div>
         
-        {/* Timeline items */}
         <div className="flex-1 overflow-y-auto pr-2 sm:pr-4 custom-scrollbar">
           <div className="relative border-l-[3px] border-slate-100 ml-4 sm:ml-6 space-y-8 sm:space-y-10 lg:space-y-12 pb-4">
             {activeDomain?.history?.map((item) => (
@@ -28,9 +31,10 @@ export default function TimelineSidebar({ activeDomain }) {
           </div>
         </div>
         
-        {/* Bottom fade gradient */}
         <div className="absolute bottom-0 left-0 right-0 h-12 sm:h-16 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-b-2xl sm:rounded-b-[3rem]"></div>
       </div>
     </aside>
   );
-}
+});
+
+export default TimelineSidebar;
