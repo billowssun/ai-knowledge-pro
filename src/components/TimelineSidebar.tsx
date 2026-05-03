@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Milestone } from 'lucide-react';
 import type { Domain } from '../types';
 
@@ -7,6 +7,14 @@ interface TimelineSidebarProps {
 }
 
 const TimelineSidebar = memo(function TimelineSidebar({ activeDomain }: TimelineSidebarProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [activeDomain.id]);
+
   return (
     <aside className="h-full" aria-label="领域演进时间线">
       <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-[3rem] border border-slate-200 dark:border-slate-700 p-6 sm:p-8 lg:p-10 shadow-sm sticky top-20 sm:top-28 flex flex-col max-h-[60vh] lg:max-h-[calc(100vh-140px)] relative">
@@ -18,7 +26,11 @@ const TimelineSidebar = memo(function TimelineSidebar({ activeDomain }: Timeline
           </div>
         </div>
         
-        <div className="flex-1 overflow-y-auto pr-2 sm:pr-4 custom-scrollbar">
+        <div
+          ref={scrollContainerRef}
+          data-testid="timeline-scroll-container"
+          className="flex-1 overflow-y-auto pr-2 sm:pr-4 custom-scrollbar"
+        >
           <div className="relative border-l-[3px] border-slate-100 dark:border-slate-700 ml-4 sm:ml-6 space-y-8 sm:space-y-10 lg:space-y-12 pb-4">
             {activeDomain?.history?.map((item) => (
               <div key={item.title} className="relative pl-7 sm:pl-10 group">
