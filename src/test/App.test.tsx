@@ -27,8 +27,23 @@ describe('App', () => {
 
   it('renders all 6 domain tabs', () => {
     renderWithProviders(<App />);
-    const tabs = screen.getAllByRole('button', { name: /(文本|视觉|视频|声音|具身|硬件)/ });
+    const tabs = screen.getAllByRole('button', { name: /(文本|图像|视频|音频|Agent|硬件)/ });
     expect(tabs.length).toBeGreaterThanOrEqual(6);
+  });
+
+  it('scrolls to top when changing domain tabs', async () => {
+    const scrollTo = vi.fn();
+    Object.defineProperty(window, 'scrollTo', {
+      value: scrollTo,
+      writable: true,
+    });
+
+    const user = userEvent.setup();
+    renderWithProviders(<App />);
+
+    await user.click(screen.getByRole('button', { name: /图像/ }));
+
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'auto' });
   });
 
   it('shows the SearchModal when Ctrl+K is pressed', async () => {

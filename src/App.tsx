@@ -56,6 +56,7 @@ export default function App() {
   const handleDomainChange = useCallback(
     (domain: Domain) => {
       if (domain.id === activeDomain?.id) return;
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       setIsTransitioning(true);
       setActiveVendor(null);
       setTimeout(() => {

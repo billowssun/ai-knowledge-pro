@@ -45,8 +45,7 @@ const Header = memo(function Header({ domainsData, activeDomain, onDomainChange 
                     }`}
                 >
                   <Icon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 shrink-0 ${isActive ? 'text-indigo-400 dark:text-indigo-200' : 'text-slate-400 dark:text-slate-500'}`} aria-hidden="true" />
-                  <span className="whitespace-nowrap hidden xl:inline">{domain.name}</span>
-                  <span className="whitespace-nowrap xl:hidden">{domain.shortName || domain.name}</span>
+                  <span className="whitespace-nowrap">{domain.shortName || domain.name}</span>
                 </button>
               );
             })}

@@ -4,7 +4,7 @@ export const domainsData: Domain[] = [
   {
     id: 'text-code',
     name: '文本与代码生成',
-    shortName: '文本生成',
+    shortName: '文本',
     color: 'indigo',
     icon: 'Terminal',
     principles: {
@@ -386,7 +386,7 @@ export const domainsData: Domain[] = [
   {
     id: 'art-vision',
     name: '视觉与多模态',
-    shortName: '视觉多模态',
+    shortName: '图像',
     color: 'cyan',
     icon: 'ImageIcon',
     principles: {
@@ -677,7 +677,7 @@ export const domainsData: Domain[] = [
   {
     id: 'video-motion',
     name: '视频与动态',
-    shortName: '视频动态',
+    shortName: '视频',
     color: 'rose',
     icon: 'Video',
     principles: {
@@ -963,7 +963,7 @@ export const domainsData: Domain[] = [
   {
     id: 'audio-speech',
     name: '声音与音频',
-    shortName: '声音音频',
+    shortName: '音频',
     color: 'purple',
     icon: 'Music',
     principles: {
@@ -1234,7 +1234,7 @@ export const domainsData: Domain[] = [
   {
     id: 'embodied-agent',
     name: '具身智能与 Agent',
-    shortName: '具身 Agent',
+    shortName: 'Agent',
     color: 'emerald',
     icon: 'Bot',
     principles: {
@@ -1504,7 +1504,7 @@ export const domainsData: Domain[] = [
   {
     id: 'ai-hardware',
     name: '算力与硬件基石',
-    shortName: '硬件算力',
+    shortName: '硬件',
     color: 'amber',
     icon: 'Cpu',
     principles: {
