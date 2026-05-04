@@ -31,7 +31,7 @@ import {
   Search,
   Cloud,
   Moon,
-  Infinity,
+  Infinity as InfinityIcon,
   Box,
   MessageSquare,
   GraduationCap,
@@ -59,9 +59,10 @@ import {
   Zap,
   Radio,
   Layers,
+  type LucideIcon,
 } from 'lucide-react';
 
-const iconMap: Record<string, React.ComponentType<any>> = {
+const iconMap: Record<string, LucideIcon> = {
   Terminal,
   FileText,
   Code2,
@@ -94,7 +95,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Search,
   Cloud,
   Moon,
-  Infinity,
+  Infinity: InfinityIcon,
   Box,
   MessageSquare,
   GraduationCap,
@@ -124,12 +125,10 @@ const iconMap: Record<string, React.ComponentType<any>> = {
   Layers,
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export function getIconComponent(iconName: string): React.ComponentType<any> {
+export function getIconComponent(iconName: string): LucideIcon {
   // Fix for legacy 'ImageIcon' reference in data vs the actual 'Image' icon exported by lucide
   if (iconName === 'ImageIcon') {
     return iconMap['Image'] || Box;
   }
   return iconMap[iconName] || Box;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -2,8 +2,7 @@ import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import DomainContent from './components/DomainContent';
 import ErrorBoundary from './components/ErrorBoundary';
-import { domainsData, generalTimeline } from './data/data';
-import type { Domain, Vendor } from './types';
+import type { Domain, GeneralTimelineItem, Vendor } from './types';
 import './App.css';
 
 const ScenarioShowcase = lazy(() => import('./components/ScenarioShowcase'));
@@ -35,12 +34,49 @@ function EmptyApp() {
 
 const TRANSITION_DURATION = 300;
 
+interface AppData {
+  domainsData: Domain[];
+  generalTimeline: GeneralTimelineItem[];
+}
+
+function getDomainFromPath(domains: Domain[]) {
+  const match = window.location.pathname.match(/^\/domains\/([^/]+)/);
+  if (!match) return domains[0] ?? null;
+  return domains.find((domain) => domain.id === match[1]) ?? domains[0] ?? null;
+}
+
 export default function App() {
-  const initialDomain = domainsData.length > 0 ? domainsData[0] : null;
-  const [activeDomain, setActiveDomain] = useState<Domain | null>(initialDomain);
+  const [appData, setAppData] = useState<AppData | null>(null);
+  const [activeDomain, setActiveDomain] = useState<Domain | null>(null);
   const [activeVendor, setActiveVendor] = useState<Vendor | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    import('./data/data').then(({ domainsData, generalTimeline }) => {
+      if (!isMounted) return;
+      setAppData({ domainsData, generalTimeline });
+      setActiveDomain(getDomainFromPath(domainsData));
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!appData) return;
+
+    const handlePopState = () => {
+      setActiveVendor(null);
+      setActiveDomain(getDomainFromPath(appData.domainsData));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [appData]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,6 +93,7 @@ export default function App() {
     (domain: Domain) => {
       if (domain.id === activeDomain?.id) return;
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      window.history.pushState(null, '', `/domains/${domain.id}/`);
       setIsTransitioning(true);
       setActiveVendor(null);
       setTimeout(() => {
@@ -72,6 +109,7 @@ export default function App() {
       if (domain.id === activeDomain?.id) {
         setActiveVendor(vendor);
       } else {
+        window.history.pushState(null, '', `/domains/${domain.id}/`);
         setIsTransitioning(true);
         setActiveVendor(null);
         setTimeout(() => {
@@ -88,6 +126,16 @@ export default function App() {
   const handleCloseSearch = useCallback(() => setIsSearchOpen(false), []);
   const handleSetActiveVendor = useCallback((v: Vendor | null) => setActiveVendor(v), []);
 
+  if (!appData) {
+    return (
+      <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans p-6 sm:p-10">
+        <div className="max-w-7xl mx-auto">
+          <LoadingFallback />
+        </div>
+      </div>
+    );
+  }
+
   if (!activeDomain) {
     return <EmptyApp />;
   }
@@ -102,7 +150,7 @@ export default function App() {
           Skip to content
         </a>
 
-        <Header domainsData={domainsData} activeDomain={activeDomain} onDomainChange={handleDomainChange} />
+        <Header domainsData={appData.domainsData} activeDomain={activeDomain} onDomainChange={handleDomainChange} />
 
         <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex-1">
           <div
@@ -131,7 +179,7 @@ export default function App() {
         </main>
 
         <Suspense fallback={<LoadingFallback />}>
-          <FooterTimeline generalTimeline={generalTimeline} />
+          <FooterTimeline generalTimeline={appData.generalTimeline} />
         </Suspense>
         <Suspense fallback={null}>
           <SearchModal

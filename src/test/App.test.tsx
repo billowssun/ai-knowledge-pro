@@ -20,13 +20,14 @@ function renderWithProviders(ui: React.ReactElement) {
 }
 
 describe('App', () => {
-  it('renders without crashing', () => {
+  it('renders without crashing', async () => {
     renderWithProviders(<App />);
-    expect(screen.getByText('AI NAVIGATOR')).toBeInTheDocument();
+    expect(await screen.findByText('AI NAVIGATOR')).toBeInTheDocument();
   });
 
-  it('renders all 6 domain tabs', () => {
+  it('renders all 6 domain tabs', async () => {
     renderWithProviders(<App />);
+    await screen.findByText('AI NAVIGATOR');
     const tabs = screen.getAllByRole('button', { name: /(文本|图像|视频|音频|Agent|硬件)/ });
     expect(tabs.length).toBeGreaterThanOrEqual(6);
   });
@@ -40,6 +41,7 @@ describe('App', () => {
 
     const user = userEvent.setup();
     renderWithProviders(<App />);
+    await screen.findByText('AI NAVIGATOR');
 
     await user.click(screen.getByRole('button', { name: /图像/ }));
 
@@ -49,8 +51,9 @@ describe('App', () => {
   it('shows the SearchModal when Ctrl+K is pressed', async () => {
     const user = userEvent.setup();
     renderWithProviders(<App />);
+    await screen.findByText('AI NAVIGATOR');
 
     await user.keyboard('{Control>}k{/Control}');
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 });
